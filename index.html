@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Quote Compare Grid: normalise supplier quotes into one like-for-like grid</title>
+<meta name="description" content="Normalise supplier quotes into one like-for-like grid: units, pack sizes, MOQs and lead times converted, landed totals for your target quantity, and non-comparable lines flagged, so the cheapest comparable price wins.">
+<meta name="keywords" content="supplier quote comparison template, compare vendor quotes spreadsheet, quotation comparison tool online, bid comparison matrix maker">
+<meta name="author" content="Amir Hussain">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://aamirtechs.github.io/quote-compare-grid/">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<meta name="theme-color" content="#0b1f3a">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Quote Compare Grid">
+<meta property="og:description" content="Normalise supplier quotes into one like-for-like grid: units, pack sizes, MOQs and lead times converted, landed totals for your target quantity, and non-comparable lines flagged, so the cheapest comparable price wins.">
+<meta property="og:url" content="https://aamirtechs.github.io/quote-compare-grid/">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Quote Compare Grid">
+<meta name="twitter:description" content="Normalise supplier quotes into one like-for-like grid: units, pack sizes, MOQs and lead times converted, landed totals for your target quantity, and non-comparable lines flagged, so the cheapest comparable price wins.">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"SoftwareApplication","name":"Quote Compare Grid","applicationCategory":"BusinessApplication","operatingSystem":"Any","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"author":{"@type":"Person","name":"Amir Hussain","url":"https://aamirtechs.com"},"url":"https://aamirtechs.github.io/quote-compare-grid/"}</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@600;700;800&family=Plus+Jakarta+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+<style>:root{--navy:#0b1f3a;--navy2:#122c50;--gold:#d4a72c;--ink:#16233a;--muted:#5a6a84;--line:#e3e9f2;--bg:#f6f8fb;--card:#ffffff}
+*{box-sizing:border-box}body{margin:0;font-family:'Plus Jakarta Sans',Arial,sans-serif;background:var(--bg);color:var(--ink)}
+header{background:linear-gradient(135deg,var(--navy),var(--navy2));color:#fff;padding:44px 20px 36px;text-align:center}
+header h1{font-family:Sora,Arial,sans-serif;font-size:2rem;margin:0 0 10px}header h1 span{color:var(--gold)}
+header p{max-width:640px;margin:0 auto 14px;color:#dbe4f2}
+.stats{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}.stats span{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.25);padding:5px 12px;border-radius:999px;font-size:.85rem}
+main{max-width:920px;margin:-18px auto 30px;padding:0 16px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:22px;box-shadow:0 6px 24px rgba(11,31,58,.07)}
+label{display:block;font-weight:700;margin:14px 0 6px;font-size:.92rem}
+input,select,textarea{width:100%;padding:10px;border:1px solid var(--line);border-radius:8px;font:inherit;background:#fff}
+textarea{min-height:110px;font-family:ui-monospace,Menlo,monospace;font-size:.85rem}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:14px}@media(max-width:640px){.row{grid-template-columns:1fr}}
+.btn-run{background:var(--gold);color:var(--navy);border:0;padding:12px 22px;border-radius:9px;font-weight:800;font-size:1rem;cursor:pointer;margin-top:18px}
+.btn-dl{background:var(--navy);color:#fff;border:0;padding:10px 16px;border-radius:8px;font-weight:700;cursor:pointer;margin:10px 8px 0 0}
+.privacy{color:var(--muted);font-size:.88rem;margin-top:14px}
+.msg{margin-top:14px;font-weight:700}.err{color:#b3261e}
+table{width:100%;border-collapse:collapse;margin-top:14px;font-size:.9rem}th,td{border:1px solid var(--line);padding:7px 9px;text-align:left}th{background:#eef3fa}
+section.info{max-width:920px;margin:0 auto 30px;padding:0 16px}section.info h2{font-family:Sora,Arial,sans-serif}
+footer{background:var(--navy);color:#cdd9ec;text-align:center;padding:26px 16px;font-size:.9rem}footer a{color:var(--gold)}
+pre.out{background:#0b1f3a;color:#e8eefc;padding:14px;border-radius:10px;overflow:auto;max-height:300px;font-size:.82rem;white-space:pre-wrap}
+.best{background:#fdf3d7;font-weight:700}.flag{color:#b3261e;font-weight:700}mark{background:#ffe58a}</style>
+</head>
+<body>
+<header>
+<h1>Quote <span>Compare Grid</span></h1>
+<p>Normalise supplier quotes into one like-for-like grid, units, pack sizes, MOQs and lead times converted, so the cheapest comparable price wins.</p>
+<div class="stats"><span>Free</span><span>100% in your browser</span><span>No sign-up</span></div>
+</header>
+<main>
+<div class="card">
+
+<div class="row">
+<div><label for="target">Target quantity to buy</label><input id="target" type="number" value="1000"></div>
+<div><label for="names">Supplier names (comma separated, up to 3)</label><input id="names" value="Alpha, Beta, Gamma"></div>
+</div>
+<label for="q0">Supplier 1 rows: paste from a spreadsheet (item, pack price, pack size, unit, MOQ, lead days, delivery)</label>
+<textarea id="q0">item,pack price,pack size,unit,moq,lead days,delivery
+Copy paper A4,24,500,sheet,0,5,0
+Toner cartridge,40,1,each,2,3,5</textarea>
+<label for="q1">Supplier 2 rows</label>
+<textarea id="q1">Copy paper A4,5,100,sheet,0,7,10
+Toner cartridge,38,1,each,1,2,0</textarea>
+<label for="q2">Supplier 3 rows</label>
+<textarea id="q2">Copy paper A4,30,1,ream,0,4,0</textarea>
+<button class="btn-run" id="run">Build the comparison grid</button>
+
+<p class="privacy">Runs 100% in your browser. Your files never leave this device.</p>
+<div class="msg" id="msg"></div>
+<div id="results"></div>
+</div>
+</main>
+<section class="info">
+<h2>How it works</h2>
+<ul>
+<li>Paste rows from each supplier spreadsheet, or type them in the same column order.</li>
+<li>Per-unit normalisation divides pack price by pack size so a 500-sheet pack and a 100-sheet pack compare fairly.</li>
+<li>MOQ and lead-time columns sit beside every price, with the best comparable per-unit price highlighted per row.</li>
+<li>Landed totals for your target quantity include delivery and whole-pack rounding.</li>
+<li>Rows quoted in different units are flagged non-comparable instead of silently mis-ranked, and the grid exports as CSV.</li>
+</ul>
+</section>
+<footer>
+<p>Built by Amir Hussain, operations manager and founder of <a href="https://aamirtechs.com" target="_blank" rel="noopener">AamirTechs: operations, customer support and e-commerce services</a>.</p>
+<p><a href="https://github.com/aamirtechs" target="_blank" rel="noopener">More open source tools on GitHub</a></p>
+</footer>
+<script src="src/logic.js"></script>
+<script>
+function download(name, text, type) {
+  var blob = new Blob([text], { type: type || "text/plain;charset=utf-8" });
+  var a = document.createElement("a");
+  a.href = URL.createObjectURL(blob); a.download = name; a.click();
+  setTimeout(function(){ URL.revokeObjectURL(a.href); }, 500);
+}
+function esc(s) { return String(s == null ? "" : s).replace(/&/g,"&amp;").replace(/</g,"&lt;"); }
+
+var L = window.QuoteCompareGrid;
+var lastGrid = null, lastQuotes = null, lastTarget = 0;
+document.getElementById("run").addEventListener("click", function () {
+  var msg = document.getElementById("msg"); var res = document.getElementById("results");
+  msg.textContent = ""; msg.className = "msg"; res.innerHTML = "";
+  var names = document.getElementById("names").value.split(",").map(function (s) { return s.trim(); }).filter(Boolean);
+  var target = parseFloat(document.getElementById("target").value) || 0;
+  var quotes = []; var problems = [];
+  for (var i = 0; i < 3; i++) {
+    var parsed = L.parseQuotePaste(document.getElementById("q" + i).value);
+    problems = problems.concat(parsed.errors);
+    if (parsed.lines.length) quotes.push({ supplier: names[i] || ("Supplier " + (i + 1)), lines: parsed.lines });
+  }
+  if (!quotes.length) { msg.textContent = "No quote rows parsed. Check the column order."; msg.className = "msg err"; return; }
+  var grid = L.buildGrid(quotes, target);
+  lastGrid = grid; lastQuotes = quotes; lastTarget = target;
+  var html = "";
+  if (problems.length) html += '<p class="flag">' + problems.map(esc).join("<br>") + "</p>";
+  html += "<table><tr><th>Item</th>";
+  quotes.forEach(function (q) { html += "<th>" + esc(q.supplier) + " per-unit</th>"; });
+  html += "<th>Best</th></tr>";
+  grid.forEach(function (row) {
+    html += "<tr><td>" + esc(row.item) + (row.comparable ? "" : ' <span class="flag">not comparable: ' + esc(row.unitNote) + "</span>") + "</td>";
+    quotes.forEach(function (q, qi) {
+      var o = row.offers[qi];
+      if (!o) { html += "<td>-</td>"; return; }
+      var cls = row.bestSupplierIdx === qi ? ' class="best"' : "";
+      html += "<td" + cls + ">" + o.perUnit + " / " + esc(o.unit) + "<br><small>pack " + o.packPrice + " x " + o.packSize + ", MOQ " + o.moq + ", lead " + o.leadDays + "d, landed " + o.landed + "</small></td>";
+    });
+    html += "<td>" + (row.bestSupplierIdx == null ? "-" : esc(quotes[row.bestSupplierIdx].supplier)) + "</td></tr>";
+  });
+  html += "</table>";
+  var totals = L.supplierTotals(grid, quotes.length);
+  html += "<h3>Landed totals for " + target + " units (items quoted)</h3><table><tr><th>Supplier</th><th>Items quoted</th><th>Landed total</th></tr>";
+  totals.forEach(function (t) { html += "<tr><td>" + esc(quotes[t.supplierIdx].supplier) + "</td><td>" + t.itemsQuoted + "</td><td>" + t.landedTotal + "</td></tr>"; });
+  html += "</table>";
+  html += '<button class="btn-dl" id="dl">Download grid CSV</button>';
+  res.innerHTML = html;
+  document.getElementById("dl").addEventListener("click", function () { download("quote-comparison.csv", L.buildGridCSV(lastGrid, lastQuotes, lastTarget), "text/csv;charset=utf-8"); });
+  msg.textContent = "Compared " + grid.length + " items across " + quotes.length + " suppliers.";
+});
+
+</script>
+</body>
+</html>
